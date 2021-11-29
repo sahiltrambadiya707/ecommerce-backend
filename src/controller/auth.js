@@ -101,3 +101,10 @@ exports.signin = (req, res) => {
     }
   });
 };
+
+exports.signout = (req, res) => {
+  res.clearCookie("token", { path: "/signin" });
+  res.status(200).json({
+    message: "Signout successfully...!",
+  });
+};

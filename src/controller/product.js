@@ -4,12 +4,13 @@ const shortid = require("shortid");
 const slugify = require("slugify");
 
 exports.createProduct = (req, res) => {
+  debugger;
   const { name, price, description, category, quantity, createdBy } = req.body;
   let productPictures = [];
 
   if (req.files && req.files.length > 0) {
     productPictures = req.files.map((file) => {
-      return { img: file.location };
+      return { img: `http://localhost:3026/public/${file.filename}` };
     });
   }
 

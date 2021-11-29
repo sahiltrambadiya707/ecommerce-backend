@@ -10,7 +10,7 @@ exports.createProduct = (req, res) => {
 
   if (req.files && req.files.length > 0) {
     productPictures = req.files.map((file) => {
-      return { img: `https://ecommercerestserver.herokuapp.com/public/${file.filename}` };
+      return { img: `/public/${file.filename}` };
     });
   }
 

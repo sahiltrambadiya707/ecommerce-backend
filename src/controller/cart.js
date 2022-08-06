@@ -10,8 +10,8 @@ function runUpdate(condition, updateData) {
   });
 }
 
-exports.addItemToCart = (req, res) => {
-  Cart.findOne({ user: req.user._id }).exec((error, cart) => {
+exports.addItemToCart = async (req, res) => {
+  await Cart.findOne({ user: req.user._id }).exec(async (error, cart) => {
     if (error) return res.status(400).json({ error });
     if (cart) {
       //if cart already exists then update cart by quantity
@@ -47,7 +47,7 @@ exports.addItemToCart = (req, res) => {
         user: req.user._id,
         cartItems: req.body.cartItems,
       });
-      cart.save((error, cart) => {
+      await cart.save((error, cart) => {
         if (error) return res.status(400).json({ error });
         if (cart) {
           return res.status(201).json({ cart });
@@ -57,10 +57,10 @@ exports.addItemToCart = (req, res) => {
   });
 };
 
-exports.getCartItems = (req, res) => {
-  Cart.findOne({ user: req.user._id })
+exports.getCartItems = async (req, res) => {
+  await Cart.findOne({ user: req.user._id })
     .populate("cartItems.product", "_id name price productPictures")
-    .exec((error, cart) => {
+    .exec(async (error, cart) => {
       if (error) return res.status(400).json({ error });
       if (cart) {
         let cartItems = {};
@@ -79,10 +79,10 @@ exports.getCartItems = (req, res) => {
 };
 
 // new update remove cart items
-exports.removeCartItems = (req, res) => {
+exports.removeCartItems = async (req, res) => {
   const { productId } = req.body.payload;
   if (productId) {
-    Cart.update(
+    await Cart.updateOne(
       { user: req.user._id },
       {
         $pull: {

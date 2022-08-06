@@ -3,8 +3,7 @@ const Category = require("../models/category");
 const shortid = require("shortid");
 const slugify = require("slugify");
 
-exports.createProduct = (req, res) => {
-  debugger;
+exports.createProduct = async (req, res) => {
   const { name, price, description, category, quantity, createdBy } = req.body;
   let productPictures = [];
 
@@ -25,7 +24,7 @@ exports.createProduct = (req, res) => {
     createdBy: req.user._id,
   });
 
-  product.save((error, product) => {
+  await product.save((error, product) => {
     if (error) return res.status(400).json({ error });
     if (product) {
       res.status(201).json({ product, files: req.files });
@@ -33,17 +32,17 @@ exports.createProduct = (req, res) => {
   });
 };
 
-exports.getProductsBySlug = (req, res) => {
+exports.getProductsBySlug = async (req, res) => {
   const { slug } = req.params;
-  Category.findOne({ slug: slug })
+  await Category.findOne({ slug: slug })
     .select("_id type")
-    .exec((error, category) => {
+    .exec(async (error, category) => {
       if (error) {
         return res.status(400).json({ error });
       }
 
       if (category) {
-        Product.find({ category: category._id }).exec((error, products) => {
+        await Product.find({ category: category._id }).exec((error, products) => {
           if (error) {
             return res.status(400).json({ error });
           }
@@ -84,10 +83,10 @@ exports.getProductsBySlug = (req, res) => {
     });
 };
 
-exports.getProductDetailsById = (req, res) => {
+exports.getProductDetailsById = async (req, res) => {
   const { productId } = req.params;
   if (productId) {
-    Product.findOne({ _id: productId }).exec((error, product) => {
+    await Product.findOne({ _id: productId }).exec((error, product) => {
       if (error) return res.status(400).json({ error });
       if (product) {
         res.status(200).json({ product });
@@ -99,10 +98,10 @@ exports.getProductDetailsById = (req, res) => {
 };
 
 // new update
-exports.deleteProductById = (req, res) => {
+exports.deleteProductById = async (req, res) => {
   const { productId } = req.body.payload;
   if (productId) {
-    Product.deleteOne({ _id: productId }).exec((error, result) => {
+    await Product.deleteOne({ _id: productId }).exec((error, result) => {
       if (error) return res.status(400).json({ error });
       if (result) {
         res.status(202).json({ result });

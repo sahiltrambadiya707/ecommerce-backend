@@ -25,7 +25,7 @@ function createCategories(categories, parentId = null) {
   return categoryList;
 }
 
-exports.addCategory = (req, res) => {
+exports.addCategory = async (req, res) => {
   const categoryObj = {
     name: req.body.name,
     // slug: `${slugify(req.body.name)}-${shortid.generate()}`,
@@ -43,7 +43,7 @@ exports.addCategory = (req, res) => {
   }
 
   const cat = new Category(categoryObj);
-  cat.save((error, category) => {
+  await cat.save((error, category) => {
     if (error) return res.status(400).json({ error });
     if (category) {
       return res.status(201).json({ category });
@@ -51,8 +51,8 @@ exports.addCategory = (req, res) => {
   });
 };
 
-exports.getCategories = (req, res) => {
-  Category.find({}).exec((error, categories) => {
+exports.getCategories = async (req, res) => {
+  await Category.find({}).exec((error, categories) => {
     if (error) return res.status(400).json({ error });
     if (categories) {
       const categoryList = createCategories(categories);
@@ -73,13 +73,9 @@ exports.updateCategory = async (req, res) => {
       if (parentId[i] !== "") {
         category.parentId = parentId[i];
       }
-      const updatedCategory = await Category.findOneAndUpdate(
-        { _id: _id[i] },
-        category,
-        {
-          new: true,
-        }
-      );
+      const updatedCategory = await Category.findOneAndUpdate({ _id: _id[i] }, category, {
+        new: true,
+      });
       updatedCategories.push(updatedCategory);
     }
     return res.status(201).json({ updatedCategories: updatedCategories });

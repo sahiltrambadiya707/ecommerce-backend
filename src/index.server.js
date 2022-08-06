@@ -17,18 +17,13 @@ const addressRoutes = require("./routes/address");
 const orderRoutes = require("./routes/order");
 const adminOrderRoute = require("./routes/admin/order.admin");
 
-dotenv.config({ path: "../config.env" });
+dotenv.config({ path: "../.env" });
 
 mongoose
-  .connect(
-    `mongodb+srv://${process.env.MONGO_DB_USER}:${process.env.MONGO_DB_PASSWORD}@cluster0.9rqvs.mongodb.net/${process.env.MONGO_DB_DATABASE}?retryWrites=true&w=majority`,
-    {
-      useNewUrlParser: true,
-      useUnifiedTopology: true,
-      // useCreateIndex: true,
-      // useFindAndModify: true,
-    }
-  )
+  .connect(`mongodb+srv://sahil:sahil@mycluster.2ud6h.mongodb.net/ecommerce`, {
+    useNewUrlParser: true,
+    useUnifiedTopology: true,
+  })
   .then(() => {
     console.log("Database connected");
   });

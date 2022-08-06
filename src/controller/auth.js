@@ -16,9 +16,10 @@ const generateJwtToken = (_id, role) => {
   );
 };
 
-exports.signup = (req, res) => {
-  User.findOne({
+exports.signup = async (req, res) => {
+  await User.findOne({
     email: req.body.email,
+    role: "user",
   }).exec(async (error, user) => {
     if (user)
       return res.status(400).json({
@@ -35,7 +36,7 @@ exports.signup = (req, res) => {
       username: shortid.generate(),
     });
 
-    _user.save((error, user) => {
+    await _user.save((error, user) => {
       if (error) {
         return res.status(400).json({
           message: "Something went wrong",
@@ -61,8 +62,8 @@ exports.signup = (req, res) => {
   });
 };
 
-exports.signin = (req, res) => {
-  User.findOne({
+exports.signin = async (req, res) => {
+  await User.findOne({
     email: req.body.email,
   }).exec(async (error, user) => {
     try {
@@ -102,7 +103,7 @@ exports.signin = (req, res) => {
   });
 };
 
-exports.signout = (req, res) => {
+exports.signout = async (req, res) => {
   res.clearCookie("token", { path: "/signin" });
   res.status(200).json({
     message: "Signout successfully...!",

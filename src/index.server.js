@@ -20,7 +20,7 @@ const adminOrderRoute = require("./routes/admin/order.admin");
 dotenv.config({ path: "../.env" });
 
 mongoose
-  .connect(`mongodb+srv://sahil:sahil@mycluster.2ud6h.mongodb.net/ecommerce`, {
+  .connect(process.env.MONGODB, {
     useNewUrlParser: true,
     useUnifiedTopology: true,
   })

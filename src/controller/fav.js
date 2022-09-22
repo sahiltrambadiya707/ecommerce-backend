@@ -57,6 +57,16 @@ exports.deleteFav = async (req, res) => {
 exports.findAllFav = async (req, res) => {
   try {
     await Fav.find()
+      .populate([
+        {
+          path: "product",
+          model: "Product",
+        },
+        {
+          path: "user",
+          model: "User",
+        },
+      ])
       .then((data) => {
         res.status(200).send(data);
       })
@@ -72,6 +82,16 @@ exports.findByUser = async (req, res) => {
   const { _id } = req.user;
   try {
     await Fav.find({ user: _id })
+      .populate([
+        {
+          path: "product",
+          model: "Product",
+        },
+        {
+          path: "user",
+          model: "User",
+        },
+      ])
       .then((data) => {
         res.status(200).send(data);
       })

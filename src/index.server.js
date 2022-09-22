@@ -16,6 +16,7 @@ const pageRoutes = require("./routes/admin/page");
 const addressRoutes = require("./routes/address");
 const orderRoutes = require("./routes/order");
 const adminOrderRoute = require("./routes/admin/order.admin");
+const favRoute = require("./routes/fav");
 
 dotenv.config({ path: "../.env" });
 
@@ -41,6 +42,7 @@ app.use("/api", pageRoutes);
 app.use("/api", addressRoutes);
 app.use("/api", orderRoutes);
 app.use("/api", adminOrderRoute);
+app.use("/api", favRoute);
 
 app.listen(process.env.PORT, () => {
   console.log(`Server is running on port http://localhost:${process.env.PORT}`);

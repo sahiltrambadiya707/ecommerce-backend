@@ -5,8 +5,8 @@ const router = express.Router();
 
 router.post("/fav/create", requireSignin, createFav); // user login and token require
 router.post("/fav/update/:id", updateFav);
-router.post("/fav/delete/:id", deleteFav);
-router.post("/fav/getAll", findAllFav); // you get all fav item
-router.post("/fav/getByUser", requireSignin, findByUser); // user login and token require
+router.delete("/fav/delete/:id", deleteFav);
+router.get("/fav/getAll", findAllFav); // you get all fav item
+router.get("/fav/getByUser", requireSignin, findByUser); // user login and token require
 
 module.exports = router;

@@ -25,7 +25,7 @@ exports.createFav = async (req, res) => {
 };
 
 exports.updateFav = async (req, res) => {
-  const id = req.params;
+  const { id } = req.params;
   try {
     await Fav.findOneAndUpdate({ _id: id }, req.body, { new: true })
       .then((data) => {
@@ -40,7 +40,7 @@ exports.updateFav = async (req, res) => {
 };
 
 exports.deleteFav = async (req, res) => {
-  const id = req.params;
+  const { id } = req.params;
   try {
     await Fav.deleteOne({ _id: id })
       .then((data) => {

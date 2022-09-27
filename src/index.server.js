@@ -18,7 +18,7 @@ const orderRoutes = require("./routes/order");
 const adminOrderRoute = require("./routes/admin/order.admin");
 const favRoute = require("./routes/fav");
 
-dotenv.config({ path: "../.env" });
+dotenv.config();
 
 mongoose
   .connect(process.env.MONGODB, {
